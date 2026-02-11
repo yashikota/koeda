@@ -60,7 +60,7 @@ func Save(repos []Repo) error {
 	}
 
 	path := filepath.Join(dir, "repos.json")
-	f, err := os.Create(path)
+	f, err := os.OpenFile(path, os.O_RDWR|os.O_CREATE|os.O_TRUNC, 0600)
 	if err != nil {
 		return err
 	}
