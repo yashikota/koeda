@@ -74,7 +74,7 @@ func TestFetchRepos_Pagination(t *testing.T) {
 			t.Errorf("Repo[%d] name mismatch: got %s, want %s", i, repos[i].FullName, name)
 		}
 	}
-	
+
 	// Check private flag mapping
 	if repos[0].Private != false {
 		t.Errorf("Repo 1 should be public")

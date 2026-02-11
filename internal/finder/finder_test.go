@@ -10,7 +10,7 @@ import (
 
 func TestMakePreview(t *testing.T) {
 	updatedAt := time.Date(2023, 10, 1, 12, 34, 56, 0, time.UTC)
-	
+
 	tests := []struct {
 		name string
 		repo cache.Repo

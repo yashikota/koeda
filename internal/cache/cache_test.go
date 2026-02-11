@@ -88,7 +88,7 @@ func TestGetCacheDir(t *testing.T) {
 	// Test with XDG_CACHE_HOME
 	tmpDir := "/tmp/xdg_cache"
 	t.Setenv("XDG_CACHE_HOME", tmpDir)
-	
+
 	dir, err := GetCacheDir()
 	if err != nil {
 		t.Fatal(err)
@@ -105,7 +105,7 @@ func TestGetCacheDir(t *testing.T) {
 		t.Fatal(err)
 	}
 	expectedHome := filepath.Join(homeDir, ".cache", "koeda")
-	
+
 	dir, err = GetCacheDir()
 	if err != nil {
 		t.Fatal(err)
