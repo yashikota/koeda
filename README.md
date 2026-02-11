@@ -57,22 +57,13 @@ koeda update
 Options:
 - `--visibility`: `all` (default), `public`, `private`
 - `--affiliation`: `owner,collaborator,organization_member` (default)
-
-### 4. Other Options
-
-Root command options:
-
-* `--force-update`: Forces a cache update before searching, even if a cache exists.
-* `--ttl`: Specifies the cache time-to-live (default: `24h`).
-
-```bash
-# Update if the cache is older than 1 hour
-koeda --ttl 1h
-```
+- `--ttl`: Specifies the cache time-to-live and saves it to the configuration (default: `24h`)
 
 ## Configuration
 
-The cache file is stored in the following path (XDG Base Directory compliant):
+Settings and cache are stored in the following paths (XDG Base Directory compliant):
 
-- `~/.cache/koeda/repos.json`
-- Or `$XDG_CACHE_HOME/koeda/repos.json`
+- Cache: `~/.cache/koeda/repos.json` (or `$XDG_CACHE_HOME/koeda/repos.json`)
+- Config: `~/.config/koeda/config.json` (or `$XDG_CONFIG_HOME/koeda/config.json`)
+
+You can change the cache expiration time (TTL) by running `koeda update --ttl <duration>` or by editing `config.json`.

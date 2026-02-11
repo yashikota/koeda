@@ -7,6 +7,7 @@ import (
 
 	"github.com/urfave/cli/v2"
 	"github.com/yashikota/koeda/internal/cache"
+	"github.com/yashikota/koeda/internal/config"
 	"github.com/yashikota/koeda/internal/github"
 )
 
@@ -24,8 +25,23 @@ var UpdateCommand = &cli.Command{
 			Usage: "Visibility of repositories (all, public, private)",
 			Value: "all",
 		},
+		&cli.DurationFlag{
+			Name:  "ttl",
+			Usage: "Cache time-to-live",
+		},
 	},
 	Action: func(c *cli.Context) error {
+		if c.IsSet("ttl") {
+			cfg, err := config.Load()
+			if err != nil {
+				return err
+			}
+			cfg.TTL = c.Duration("ttl")
+			if err := config.Save(cfg); err != nil {
+				return err
+			}
+		}
+
 		start := time.Now()
 		count, err := DoUpdate(c.Context, github.FetchOptions{
 			Affiliation: c.String("affiliation"),

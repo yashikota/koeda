@@ -3,10 +3,10 @@ package cmd
 import (
 	"fmt"
 	"os"
-	"time"
 
 	"github.com/urfave/cli/v2"
 	"github.com/yashikota/koeda/internal/cache"
+	"github.com/yashikota/koeda/internal/config"
 	"github.com/yashikota/koeda/internal/finder"
 	"github.com/yashikota/koeda/internal/github"
 )
@@ -14,41 +14,29 @@ import (
 var RootCommand = &cli.Command{
 	Name:  "koeda",
 	Usage: "Fuzzy find GitHub repositories",
-	Flags: []cli.Flag{
-		&cli.BoolFlag{
-			Name:  "force-update",
-			Usage: "Force update cache before finding",
-		},
-		&cli.DurationFlag{
-			Name:  "ttl",
-			Usage: "Cache time-to-live",
-			Value: 24 * time.Hour,
-		},
-	},
 	Action: func(c *cli.Context) error {
-		forceUpdate := c.Bool("force-update")
-		ttl := c.Duration("ttl")
+		cfg, err := config.Load()
+		if err != nil {
+			return err
+		}
+		ttl := cfg.TTL
 
 		var repos []cache.Repo
-		var err error
 
-		// Try to load cache if not forced
-		if !forceUpdate {
-			var data *cache.Data
-			data, err = cache.Load()
-			if err == nil {
-				// Check expiration
-				if cache.IsExpired(data.LastUpdate, ttl) {
-					// Expired
-					err = fmt.Errorf("cache expired")
-				} else {
-					repos = data.Repositories
-				}
+		// Try to load cache
+		data, err := cache.Load()
+		if err == nil {
+			// Check expiration
+			if cache.IsExpired(data.LastUpdate, ttl) {
+				// Expired
+				err = fmt.Errorf("cache expired")
+			} else {
+				repos = data.Repositories
 			}
 		}
 
-		// Update if forced, not found, or expired
-		if forceUpdate || err != nil {
+		// Update if not found or expired
+		if err != nil {
 			// If it was an error other than "not found", we might want to log it, but for now we just update.
 			// Default options for auto-update
 			opts := github.FetchOptions{
@@ -61,12 +49,6 @@ var RootCommand = &cli.Command{
 
 			_, err := DoUpdate(c.Context, opts)
 			if err != nil {
-				// If update fails and we have no cache, that's fatal.
-				// If we had an expired cache, we might want to use it as fallback?
-				// The spec says "Cache missing & API fail -> exit 1".
-				// It doesn't explicitly say "Expired & API fail -> fallback".
-				// "If JSON broken -> Auto re-fetch".
-				// We'll error out for now to be safe.
 				return fmt.Errorf("failed to update cache: %w", err)
 			}
 

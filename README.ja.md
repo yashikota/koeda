@@ -48,31 +48,22 @@ gh browse $(koeda)
 
 ### 3. キャッシュの更新
 
-キャッシュを手動で更新する場合  
+キャッシュを手動で更新する場合
 
 ```bash
 koeda update
 ```
 
-オプション  
+オプション
 - `--visibility`: `all` (デフォルト), `public`, `private`
 - `--affiliation`: `owner,collaborator,organization_member` (デフォルト)
-
-### 4. その他のオプション
-
-ルートコマンドのオプション  
-
-* `--force-update`: キャッシュがあっても強制的に更新してから検索を開始します。
-* `--ttl`: キャッシュの有効期限を指定します（デフォルト: `24h`）。
-
-```bash
-# 1時間以上経過していたら更新する
-koeda --ttl 1h
-```
+- `--ttl`: キャッシュの有効期限を指定し、設定ファイルに保存します (デフォルト: `24h`)
 
 ## 設定
 
-キャッシュファイルは以下のパスに保存されます  
+設定とキャッシュは以下のパスに保存されます  
 
-- `~/.cache/koeda/repos.json`
-- または `$XDG_CACHE_HOME/koeda/repos.json`
+- キャッシュ: `~/.cache/koeda/repos.json` (または `$XDG_CACHE_HOME/koeda/repos.json`)
+- 設定: `~/.config/koeda/config.json` (または `$XDG_CONFIG_HOME/koeda/config.json`)
+
+キャッシュの有効期限 (TTL) は、`koeda update --ttl <duration>` を実行するか、`config.json` を直接編集することで変更できます。
