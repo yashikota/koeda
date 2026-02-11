@@ -22,9 +22,9 @@ func Find(repos []cache.Repo) (*cache.Repo, error) {
 			if r.Private {
 				vis = "Private"
 			}
-			return fmt.Sprintf("Name: %s\nVisibility: %s\nUpdated: %s", 
-				r.FullName, 
-				vis, 
+			return fmt.Sprintf("Name: %s\nVisibility: %s\nUpdated: %s",
+				r.FullName,
+				vis,
 				r.UpdatedAt.Format("2006-01-02 15:04:05"),
 			)
 		}),

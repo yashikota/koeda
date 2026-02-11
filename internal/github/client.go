@@ -52,7 +52,7 @@ type FetchOptions struct {
 
 func (c *Client) FetchRepos(ctx context.Context, opts FetchOptions) ([]cache.Repo, error) {
 	var allRepos []cache.Repo
-	
+
 	// Set default options if empty
 	if opts.Affiliation == "" {
 		opts.Affiliation = "owner,collaborator,organization_member"

@@ -55,21 +55,21 @@ var RootCommand = &cli.Command{
 				Affiliation: "owner,collaborator,organization_member",
 				Visibility:  "all",
 			}
-			
+
 			// Show a spinner or message since this takes time
 			fmt.Fprintln(os.Stderr, "Updating repository cache...")
-			
+
 			_, err := DoUpdate(c.Context, opts)
 			if err != nil {
 				// If update fails and we have no cache, that's fatal.
-				// If we had an expired cache, we might want to use it as fallback? 
-				// The spec says "Cache missing & API fail -> exit 1". 
+				// If we had an expired cache, we might want to use it as fallback?
+				// The spec says "Cache missing & API fail -> exit 1".
 				// It doesn't explicitly say "Expired & API fail -> fallback".
 				// "If JSON broken -> Auto re-fetch".
 				// We'll error out for now to be safe.
 				return fmt.Errorf("failed to update cache: %w", err)
 			}
-			
+
 			// Reload to get the fresh data
 			data, loadErr := cache.Load()
 			if loadErr != nil {

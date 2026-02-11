@@ -13,11 +13,11 @@ var Version string
 
 func main() {
 	app := &cli.App{
-		Name:  "koeda",
-		Usage: "GitHub repository fuzzy finder",
+		Name:    "koeda",
+		Usage:   "GitHub repository fuzzy finder",
 		Version: getVersion(),
-		Action: cmd.RootCommand.Action,
-		Flags: cmd.RootCommand.Flags,
+		Action:  cmd.RootCommand.Action,
+		Flags:   cmd.RootCommand.Flags,
 		Commands: []*cli.Command{
 			cmd.UpdateCommand,
 		},
