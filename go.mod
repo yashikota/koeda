@@ -5,7 +5,7 @@ go 1.25.5
 require (
 	github.com/google/go-github/v69 v69.2.0
 	github.com/ktr0731/go-fuzzyfinder v0.9.0
-	github.com/urfave/cli/v2 v2.27.7
+	github.com/urfave/cli/v3 v3.8.0
 	github.com/urfave/cli/v3 v3.8.0
 	golang.org/x/oauth2 v0.36.0
 )
